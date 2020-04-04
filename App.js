@@ -1,24 +1,21 @@
 import React from "react";
-import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import AppContainer from "./src/modules/HomePage/containers/AppContainer.js";
+import { ApplicationProvider, Layout, Text } from "@ui-kitten/components";
+import { mapping, light as lightTheme } from "@eva-design/eva";
+
 export default function App() {
   return (
-    <View style={styles.container}>
+    <ApplicationProvider mapping={mapping} theme={lightTheme}>
       <AppContainer />
-      <Text>Open up App.js to start working on your sriram!</Text>
-      <Button
-        title="Press me"
-        onPress={() => Alert.alert("Simple Button pressed")}
-      />
-    </View>
+    </ApplicationProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     alignItems: "center",
+//     justifyContent: "center"
+//   }
+// });

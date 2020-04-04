@@ -1,14 +1,21 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { Layout, Text } from "@ui-kitten/components";
+import Login from "../../Login/containers/Login";
 
 export default class AppContainer extends React.Component {
   render() {
-    return <Text style={style.titleText}>Hey Sriram!</Text>;
+    return (
+      <Layout
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        <Login />
+      </Layout>
+    );
   }
 }
 
-const style = StyleSheet.create({
-  titleText: {
-    fontSize: 20
-  }
-});
+// const style = StyleSheet.create({
+//   titleText: {
+//     fontSize: 20
+//   }
+// });
