@@ -1,18 +1,20 @@
 import React from "react";
 import { Layout, Text, Input, Button, Icon } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Alert } from "react-native";
+import Request from "../../../Request/Request";
 
-const StarIcon = style => <Icon {...style} name="facebook" />;
+const StarIcon = (style) => <Icon {...style} name="facebook" />;
 
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
     };
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onPressLogin = this.onPressLogin.bind(this);
   }
 
   onChangePassword(val) {
@@ -23,6 +25,31 @@ export default class Login extends React.Component {
     this.setState({ username: val });
   }
 
+  componentDidMount() {}
+
+  onPressLogin() {
+    let { username, password } = this.state;
+    Request("https://api.goschedule.io/accounts/signin")
+      .post({
+        email: username,
+        password: password,
+      })
+      .then((res) => {
+        this.showAlert(true);
+      })
+      .catch((err) => {
+        this.showAlert(false);
+      });
+  }
+
+  showAlert(status) {
+    if (status) {
+      Alert.alert(`Logged in successfully`);
+    } else {
+      Alert.alert(`Logged in failed`);
+    }
+  }
+
   render() {
     let { username, password } = this.state;
     return (
@@ -30,7 +57,7 @@ export default class Login extends React.Component {
         style={{
           flex: 1,
           justifyContent: "center",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <Input
@@ -48,8 +75,12 @@ export default class Login extends React.Component {
           status="primary"
           onChangeText={this.onChangePassword}
         />
-        <Button style={styles.button} status="primary">
-          PRIMARY
+        <Button
+          style={styles.button}
+          status="primary"
+          onPress={this.onPressLogin}
+        >
+          Login
         </Button>
       </Layout>
     );
@@ -59,11 +90,11 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   button: {
-    margin: 8
-  }
+    margin: 8,
+  },
 });
 
 // const style = StyleSheet.create({
