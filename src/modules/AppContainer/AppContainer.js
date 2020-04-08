@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout, Text } from "@ui-kitten/components";
-import Login from "../../Login/containers/Login";
+import Login from "../Login/Login";
 
 export default class AppContainer extends React.Component {
   render() {

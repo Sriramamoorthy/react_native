@@ -1,11 +1,10 @@
 import React from "react";
 import { Layout, Text, Input, Button, Icon } from "@ui-kitten/components";
 import { StyleSheet, Alert } from "react-native";
-import Request from "../../../Request/Request";
+import Request from "../../Request/Request";
+import { connect } from "react-redux";
 
-const StarIcon = (style) => <Icon {...style} name="facebook" />;
-
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +24,9 @@ export default class Login extends React.Component {
     this.setState({ username: val });
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props);
+  }
 
   onPressLogin() {
     let { username, password } = this.state;
@@ -79,6 +80,7 @@ export default class Login extends React.Component {
           style={styles.button}
           status="primary"
           onPress={this.onPressLogin}
+          icon={() => <Icon name="facebook" />}
         >
           Login
         </Button>
@@ -97,8 +99,9 @@ const styles = StyleSheet.create({
   },
 });
 
-// const style = StyleSheet.create({
-//   titleText: {
-//     fontSize: 20
-//   }
-// });
+const mapStateToProps = (state) => {
+  const { friendReducer } = state;
+  return { friendReducer };
+};
+
+export default connect(mapStateToProps)(Login);
