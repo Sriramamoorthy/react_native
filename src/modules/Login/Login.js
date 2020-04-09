@@ -3,7 +3,7 @@ import { Layout, Text, Input, Button, Icon } from "@ui-kitten/components";
 import { StyleSheet, Alert } from "react-native";
 import Request from "../../Request/Request";
 import { connect } from "react-redux";
-
+import { getMeta } from "../../actions";
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +25,9 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    console.log("shi");
+    let { getMeta } = this.props;
+    getMeta();
   }
 
   onPressLogin() {
@@ -104,4 +106,6 @@ const mapStateToProps = (state) => {
   return { friendReducer };
 };
 
-export default connect(mapStateToProps)(Login);
+const mapDispatchToProps = { getMeta };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

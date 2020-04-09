@@ -5,6 +5,9 @@ const INITIAL_STATE = {
 
 export const friendReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case "META_SUCCESS":
+      return "sriram";
+      break;
     default:
       return state;
   }

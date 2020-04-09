@@ -22,13 +22,13 @@ global.Request = function (url, orgName) {
         }
         client.open(method, uri);
         if (orgName) {
-          client.setRequestHeader("X-ORGANIZATION-NAME", orgName);
+          client.setRequestHeader("X-ORGANIZATION-NAME", "shakthicorp1");
         }
         client.withCredentials = true;
         if (window.goOrg_xsrf) {
           client.setRequestHeader("X-CSRF-TOKEN", window.goOrg_xsrf);
         } else if (orgName) {
-          client.setRequestHeader("X-CSRF-TOKEN", orgName);
+          client.setRequestHeader("X-CSRF-TOKEN", "shakthicorp1");
         }
         if (files) {
           var data = new FormData();
