@@ -3,7 +3,7 @@ import { Layout, Text, Input, Button, Icon } from "@ui-kitten/components";
 import { StyleSheet, Alert } from "react-native";
 import Request from "../../Request/Request";
 import { connect } from "react-redux";
-import { getMeta } from "../../actions";
+import { onLoginIn } from "../../actions";
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -24,19 +24,15 @@ class Login extends React.Component {
     this.setState({ username: val });
   }
 
-  componentDidMount() {
-    console.log("shi");
-    let { getMeta } = this.props;
-    getMeta();
-  }
+  componentDidMount() {}
 
   onPressLogin() {
     let { username, password } = this.state;
-    Request("https://api.goschedule.io/accounts/signin")
-      .post({
-        email: username,
-        password: password,
-      })
+    let { onLoginIn } = this.props;
+    onLoginIn({
+      email: username,
+      password: password,
+    })
       .then((res) => {
         this.showAlert(true);
       })
@@ -102,10 +98,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { friendReducer } = state;
-  return { friendReducer };
+  const { isLoggedIn } = state;
+  return { isLoggedIn };
 };
 
-const mapDispatchToProps = { getMeta };
+const mapDispatchToProps = { onLoginIn };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

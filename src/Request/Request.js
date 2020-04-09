@@ -1,4 +1,4 @@
-global.Request = function (url, orgName) {
+global.Request = function (url, tokens) {
   var core = {
     ajax: function (method, url, args, payload, files) {
       return new Promise(function (resolve, reject) {
@@ -21,15 +21,13 @@ global.Request = function (url, orgName) {
           }
         }
         client.open(method, uri);
-        if (orgName) {
-          client.setRequestHeader("X-ORGANIZATION-NAME", "shakthicorp1");
+        console.log("tokens", tokens);
+        if (tokens) {
+          client.setRequestHeader("x-organization-id", tokens.orgId);
+          client.setRequestHeader("X-CSRF-TOKEN", tokens.xsrf);
         }
         client.withCredentials = true;
-        if (window.goOrg_xsrf) {
-          client.setRequestHeader("X-CSRF-TOKEN", window.goOrg_xsrf);
-        } else if (orgName) {
-          client.setRequestHeader("X-CSRF-TOKEN", "shakthicorp1");
-        }
+
         if (files) {
           var data = new FormData();
           if (files.length != 0) {
