@@ -36,21 +36,17 @@ class AppContainer extends React.Component {
         <ModuleContainer />
       )
     ) : (
-      <div className={styles.loader}>
-        <Image
-          source={require("./../../../assets/loading.gif")}
-          style={{
-            width: 100,
-            height: 100,
-            textAlign: "center",
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            /* bring your own prefixes */
-            transform: "translate(-50%, -50%)",
-          }}
-        />
-      </div>
+      <Image
+        source={require("./../../../assets/loading.gif")}
+        style={{
+          width: 100,
+          height: 100,
+          textAlign: "center",
+          position: "fixed",
+          top: "40%",
+          left: "40%",
+        }}
+      />
     );
   }
 }

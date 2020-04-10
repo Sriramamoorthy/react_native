@@ -37,7 +37,7 @@ class ContactList extends React.Component {
 const renderItemIcon = (props) => <Icon {...props} name="person" />;
 const styles = StyleSheet.create({
   container: {
-    height: "calc(100% - 50px)",
+    height: "95%",
     width: "100%",
     position: "absolute",
   },
