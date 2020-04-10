@@ -21,7 +21,6 @@ global.Request = function (url, tokens) {
           }
         }
         client.open(method, uri);
-        console.log("tokens", tokens);
         if (tokens) {
           client.setRequestHeader("x-organization-id", tokens.orgId);
           client.setRequestHeader("X-CSRF-TOKEN", tokens.xsrf);

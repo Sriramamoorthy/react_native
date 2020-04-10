@@ -10,28 +10,23 @@ class ContactList extends React.Component {
 
   componentDidMount() {
     let { getContacts } = this.props;
-    getContacts()
-      .then((res) => console.log(res))
-      .catch((err) => console.log("error", err));
+    getContacts().then().catch();
   }
 
   render() {
     const renderItemIcon = <Icon name="person" />;
-    const renderItemAccessory = (props) => (
-    <Button size='tiny'>FOLLOW</Button>
-  );
+    const renderItemAccessory = (props) => <Button size="tiny">FOLLOW</Button>;
     let { contacts } = this.props;
-    console.log("contacts", contacts.length);
 
     const renderItem = ({ item, index }) => (
       <ListItem
-        style={{fontSize: 100}}
+        style={{ fontSize: 100 }}
         title={`${item.client_firstname}`}
         description={`${item.client_email}`}
         accessoryLeft={renderItemIcon}
         accessoryRight={renderItemAccessory}
       />
-    )
+    );
 
     return contacts.length ? (
       <List
@@ -49,7 +44,7 @@ const styles = StyleSheet.create({
     height: "95%",
     width: "100%",
     position: "absolute",
-    fontSize: 24
+    fontSize: 24,
   },
 });
 

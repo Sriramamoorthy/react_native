@@ -15,17 +15,17 @@ class AppContainer extends React.Component {
   }
   componentDidMount() {
     let { getMeta, toggleLogIn } = this.props;
-     getMeta()
-       .then((res) => {
-         toggleLogIn(true);
-         this.setState({
-           isLoaded: true,
-         });
-       })
-       .catch((err) => {
-         toggleLogIn(false);
-         this.setState({ isLoaded: true });
-       });
+    getMeta()
+      .then((res) => {
+        toggleLogIn(true);
+        this.setState({
+          isLoaded: true,
+        });
+      })
+      .catch((err) => {
+        toggleLogIn(false);
+        this.setState({ isLoaded: true });
+      });
   }
   render() {
     let { isLoggedIn } = this.props;
@@ -38,31 +38,32 @@ class AppContainer extends React.Component {
           <Login />
         </Layout>
       ) : (
-        <ModuleContainer />
+        <Layout
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ModuleContainer />
+        </Layout>
       )
     ) : (
-      <Image
-        source={require("./../../../assets/loading.gif")}
-        style={{
-          width: 100,
-          height: 100,
-          textAlign: "center",
-          top: "40%",
-          left: "40%",
-        }}
-      />
+      <Layout
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        <Image
+          source={require("./../../../assets/loading.gif")}
+          style={{
+            width: 75,
+            height: 75,
+            position: "relative",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
+      </Layout>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  loader: {
-    textAlign: "center",
-  },
-});
-
 const mapStateToProps = (state) => {
-  console.log(state);
   const { isLoggedIn } = state;
   return { isLoggedIn };
 };
