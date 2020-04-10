@@ -3,7 +3,7 @@ import { Layout, Text, Input, Button, Icon } from "@ui-kitten/components";
 import { StyleSheet, Alert } from "react-native";
 import Request from "../../Request/Request";
 import { connect } from "react-redux";
-import { onLoginIn } from "../../actions";
+import { onLoginIn, getMeta } from "../../actions";
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +28,7 @@ class Login extends React.Component {
 
   onPressLogin() {
     let { username, password } = this.state;
-    let { onLoginIn } = this.props;
+    let { onLoginIn, getMeta } = this.props;
     onLoginIn({
       email: username,
       password: password,
@@ -102,6 +102,6 @@ const mapStateToProps = (state) => {
   return { isLoggedIn };
 };
 
-const mapDispatchToProps = { onLoginIn };
+const mapDispatchToProps = { onLoginIn, getMeta };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

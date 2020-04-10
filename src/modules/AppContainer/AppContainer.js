@@ -15,12 +15,17 @@ class AppContainer extends React.Component {
   }
   componentDidMount() {
     let { getMeta, toggleLogIn } = this.props;
-    getMeta().then((res) => {
-      toggleLogIn();
-      this.setState({
-        isLoaded: true,
-      });
-    });
+     getMeta()
+       .then((res) => {
+         toggleLogIn(true);
+         this.setState({
+           isLoaded: true,
+         });
+       })
+       .catch((err) => {
+         toggleLogIn(false);
+         this.setState({ isLoaded: true });
+       });
   }
   render() {
     let { isLoggedIn } = this.props;
@@ -42,7 +47,6 @@ class AppContainer extends React.Component {
           width: 100,
           height: 100,
           textAlign: "center",
-          position: "fixed",
           top: "40%",
           left: "40%",
         }}

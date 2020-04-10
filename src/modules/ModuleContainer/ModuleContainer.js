@@ -26,7 +26,7 @@ export default class ModuleContainer extends React.Component {
     let { selectedIndex } = this.state;
     return (
       <React.Fragment>
-        {selectedIndex === 0 ? <ContactList /> : <div>Other modules</div>}
+        {selectedIndex === 0 ? <ContactList /> : null}
         <BottomNavigation
           selectedIndex={selectedIndex}
           onSelect={(index) => this.setSelectedIndex(index)}

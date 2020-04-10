@@ -8,9 +8,6 @@ export const getMeta = () => ({
       .then((res) => {
         return res["data"];
       })
-      .catch((err) => {
-        return err;
-      });
   },
 });
 
@@ -28,10 +25,10 @@ export const onLoginIn = (loginObj) => ({
   },
 });
 
-export const toggleLogIn = () => {
+export const toggleLogIn = (isLoggedIn) => {
   return {
     type: "LOGIN_SUCCESS",
-    data: true,
+    data: isLoggedIn,
   };
 };
 
