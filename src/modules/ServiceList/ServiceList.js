@@ -1,36 +1,36 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getContacts } from "../../actions";
+import { getServices } from "../../actions";
 import { StyleSheet } from "react-native";
 import { ListItem, List, Icon, Divider, Button } from "@ui-kitten/components";
-class ContactList extends React.Component {
+class ServiceList extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    let { getContacts } = this.props;
-    getContacts().then().catch();
+    let { getServices } = this.props;
+    getServices().then().catch();
   }
 
   render() {
     const renderItemIcon = <Icon name="person" />;
     const renderItemAccessory = (props) => <Button size="tiny">FOLLOW</Button>;
-    let { contacts } = this.props;
+    let { services } = this.props;
 
     const renderItem = ({ item, index }) => (
       <ListItem
-        title={`${item.client_firstname} ${item.client_lastname}`}
-        description={`${item.client_email}  ${item.client_mobile}`}
+        title={`${item.service_name}`}
+        description={`${item.service_description}`}
         accessoryLeft={renderItemIcon}
         accessoryRight={renderItemAccessory}
       />
     );
 
-    return contacts.length ? (
+    return services.length ? (
       <List
         style={styles.container}
-        data={contacts}
+        data={services}
         ItemSeparatorComponent={Divider}
         renderItem={renderItem}
       />
@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { contacts } = state;
-  return { contacts };
+  const { services } = state;
+  return { services };
 };
 
-const mapDispatchToProps = { getContacts };
+const mapDispatchToProps = { getServices };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceList);

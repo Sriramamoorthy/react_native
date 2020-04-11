@@ -43,3 +43,16 @@ export const getContacts = () => ({
       });
   },
 });
+
+export const getServices = () => ({
+  types: ["GET_SERVICE_REQUEST", "GET_SERVICE_SUCCESS", "GET_SERVICE_FAILURE"],
+  callAPI: (state) => {
+    let tokens = getTokens(state);
+    return Request("https://api.goschedule.io/store/appointmentstore/list", tokens)
+      .get()
+      .then((res) => {
+        let services = res['data']
+        return services || [];
+      });
+  },
+});
