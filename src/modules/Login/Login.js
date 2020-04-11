@@ -41,6 +41,7 @@ class Login extends React.Component {
     })
       .then((res) => {
         this.showAlert(true);
+        getMeta().then();
       })
       .catch((err) => {
         this.showAlert(false);

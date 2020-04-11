@@ -2,7 +2,13 @@ import React from "react";
 import AppContainer from "./src/modules/AppContainer/AppContainer.js";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { friendReducer, isLoggedIn, contacts, orgData, services } from "./src/reducers";
+import {
+  friendReducer,
+  isLoggedIn,
+  contacts,
+  orgData,
+  services,
+} from "./src/reducers";
 import promiseMiddleware from "./src/middlewares/promisemiddleware";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { mapping, light as lightTheme } from "@eva-design/eva";
@@ -16,7 +22,7 @@ const reducer = combineReducers({
   services,
   orgData,
 });
-const store = createStore(reducer, applyMiddleware(logger, promiseMiddleware));
+const store = createStore(reducer, applyMiddleware(promiseMiddleware));
 
 export default function App() {
   return (

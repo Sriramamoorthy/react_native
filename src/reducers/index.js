@@ -12,7 +12,7 @@ export const friendReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export const orgData = (state = {}, action) => {
+export const orgData = (state = "", action) => {
   switch (action.type) {
     case "META_SUCCESS":
       let newState = Object.assign({}, state);
@@ -35,7 +35,9 @@ export const isLoggedIn = (state = false, action) => {
 export const contacts = (state = [], action) => {
   switch (action.type) {
     case "GET_CONTACT_SUCCESS":
-      return action.data;
+      let newState = state;
+      newState = [...newState, ...action.data];
+      return newState;
     default:
       return state;
   }

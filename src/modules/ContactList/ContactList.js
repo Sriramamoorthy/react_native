@@ -2,18 +2,51 @@ import React from "react";
 import { connect } from "react-redux";
 import { getContacts } from "../../actions";
 import { getFullName } from "../../selector/utils";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { ListItem, List, Icon, Divider, Button } from "@ui-kitten/components";
 class ContactList extends React.Component {
   constructor(props) {
     super(props);
+    this.onScroll = this.onScroll.bind(this);
+    this.state = {
+      page: 0,
+      apiLoading: false,
+      hasMoreData: false,
+    };
   }
 
   componentDidMount() {
     let { getContacts } = this.props;
-    getContacts().then().catch();
+    let { page } = this.state;
+    getContacts(page)
+      .then((data) => {
+        if (data["data"].length % 20 === 0) {
+          this.setState({ hasMoreData: true });
+        } else {
+          this.setState({ hasMoreData: false });
+        }
+      })
+      .catch();
   }
 
+  onScroll(e) {
+    let { apiLoading, hasMoreData, page } = this.state;
+    let { getContacts } = this.props;
+    var windowHeight = Dimensions.get("window").height,
+      height = e.nativeEvent.contentSize.height,
+      offset = e.nativeEvent.contentOffset.y;
+    if (windowHeight + offset >= height && !apiLoading && hasMoreData) {
+      this.setState({ apiLoading: true, page: ++this.state.page });
+      getContacts(this.state.page).then((data) => {
+        if (data["data"].length % 20 === 0) {
+          this.setState({ hasMoreData: true });
+        } else {
+          this.setState({ hasMoreData: false });
+        }
+        this.setState({ apiLoading: false });
+      });
+    }
+  }
   render() {
     const renderItemIcon = <Icon name="person" />;
     const renderItemAccessory = (props) => <Button size="tiny">FOLLOW</Button>;
@@ -35,6 +68,8 @@ class ContactList extends React.Component {
         data={contacts}
         ItemSeparatorComponent={Divider}
         renderItem={renderItem}
+        onScroll={this.onScroll}
+        scrollEventThrottle="80%"
       />
     ) : null;
   }

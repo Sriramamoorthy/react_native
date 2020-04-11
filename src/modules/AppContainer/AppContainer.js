@@ -28,7 +28,7 @@ class AppContainer extends React.Component {
       });
   }
   render() {
-    let { isLoggedIn } = this.props;
+    let { isLoggedIn, isMetaLoaded } = this.props;
     let { isLoaded } = this.state;
     return isLoaded ? (
       !isLoggedIn ? (
@@ -37,11 +37,26 @@ class AppContainer extends React.Component {
         >
           <Login />
         </Layout>
-      ) : (
+      ) : isMetaLoaded ? (
         <Layout
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <ModuleContainer />
+        </Layout>
+      ) : (
+        <Layout
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <Image
+            source={require("./../../../assets/loading.gif")}
+            style={{
+              width: 75,
+              height: 75,
+              position: "relative",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          />
         </Layout>
       )
     ) : (
@@ -64,8 +79,8 @@ class AppContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { isLoggedIn } = state;
-  return { isLoggedIn };
+  const { isLoggedIn, orgData } = state;
+  return { isLoggedIn, isMetaLoaded: orgData ? true : false };
 };
 
 const mapDispatchToProps = { getMeta, toggleLogIn };

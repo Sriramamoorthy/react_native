@@ -7,7 +7,7 @@ export const getMeta = () => ({
       .get()
       .then((res) => {
         return res["data"];
-      })
+      });
   },
 });
 
@@ -32,11 +32,11 @@ export const toggleLogIn = (isLoggedIn) => {
   };
 };
 
-export const getContacts = () => ({
+export const getContacts = (page) => ({
   types: ["GET_CONTACT_REQUEST", "GET_CONTACT_SUCCESS", "GET_CONTACT_FAILURE"],
   callAPI: (state) => {
     let tokens = getTokens(state);
-    return Request("https://api.goschedule.io/customer/list/0", tokens)
+    return Request("https://api.goschedule.io/customer/list/" + page, tokens)
       .get()
       .then((res) => {
         return res["data"].customers || [];
@@ -48,10 +48,13 @@ export const getServices = () => ({
   types: ["GET_SERVICE_REQUEST", "GET_SERVICE_SUCCESS", "GET_SERVICE_FAILURE"],
   callAPI: (state) => {
     let tokens = getTokens(state);
-    return Request("https://api.goschedule.io/store/appointmentstore/list", tokens)
+    return Request(
+      "https://api.goschedule.io/store/appointmentstore/list",
+      tokens
+    )
       .get()
       .then((res) => {
-        let services = res['data']
+        let services = res["data"];
         return services || [];
       });
   },
