@@ -8,7 +8,6 @@ import {
   Divider,
 } from "@ui-kitten/components";
 import { StyleSheet, Alert, TouchableOpacity, Image, View } from "react-native";
-import Request from "../../Request/Request";
 import { connect } from "react-redux";
 import { onLoginIn, getMeta } from "../../actions";
 class Login extends React.Component {

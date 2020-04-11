@@ -7,6 +7,7 @@ import promiseMiddleware from "./src/middlewares/promisemiddleware";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
 import { mapping, light as lightTheme } from "@eva-design/eva";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
+import { logger } from "redux-logger";
 
 const reducer = combineReducers({
   friendReducer,
@@ -14,7 +15,7 @@ const reducer = combineReducers({
   contacts,
   orgData,
 });
-const store = createStore(reducer, applyMiddleware(promiseMiddleware));
+const store = createStore(reducer, applyMiddleware(logger, promiseMiddleware));
 
 export default function App() {
   return (

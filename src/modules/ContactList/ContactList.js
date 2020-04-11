@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getContacts } from "../../actions";
+import { getFullName } from "../../selector/utils";
 import { StyleSheet } from "react-native";
 import { ListItem, List, Icon, Divider, Button } from "@ui-kitten/components";
 class ContactList extends React.Component {
@@ -21,7 +22,7 @@ class ContactList extends React.Component {
     const renderItem = ({ item, index }) => (
       <ListItem
         style={{ fontSize: 100 }}
-        title={`${item.client_firstname}`}
+        title={`${getFullName(item.client_firstname, item.client_lastname)}`}
         description={`${item.client_email}`}
         accessoryLeft={renderItemIcon}
         accessoryRight={renderItemAccessory}
