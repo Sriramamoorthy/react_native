@@ -9,7 +9,7 @@ import {
 import { StyleSheet } from "react-native";
 import ContactList from "../ContactList/ContactList";
 import ServiceList from "../ServiceList/ServiceList";
-
+import Settings from "../settings/Settings";
 
 export default class ModuleContainer extends React.Component {
   constructor(props) {
@@ -26,11 +26,31 @@ export default class ModuleContainer extends React.Component {
     });
   }
 
+  renderComponent()
+  {
+
+  }
+
   render() {
     let { selectedIndex } = this.state;
+    let selectedComponent = <ContactList />;
+    switch (selectedIndex) {
+      case 0:
+        selectedComponent = <ContactList/>
+        break;
+      case 1:
+        selectedComponent = <ServiceList/>
+        break;
+      case 2:
+        selectedComponent = <Settings/>
+        break;
+      default:
+        selectedComponent = <ContactList/>
+        break;
+    }
     return (
       <React.Fragment>
-        {selectedIndex === 0 ? <ContactList /> : <ServiceList />}
+        {selectedComponent}
         <BottomNavigation
           selectedIndex={selectedIndex}
           onSelect={(index) => this.setSelectedIndex(index)}
