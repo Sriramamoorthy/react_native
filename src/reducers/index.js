@@ -40,3 +40,12 @@ export const contacts = (state = [], action) => {
       return state;
   }
 };
+
+export const services = (state = [], action) => {
+  switch (action.type) {
+    case "GET_SERVICE_SUCCESS":
+      return action.data;
+    default:
+      return state;
+  }
+};
