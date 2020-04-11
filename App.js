@@ -8,6 +8,7 @@ import {
   contacts,
   orgData,
   services,
+  contactsUIState,
 } from "./src/reducers";
 import promiseMiddleware from "./src/middlewares/promisemiddleware";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   contacts,
   services,
   orgData,
+  contactsUIState,
 });
 const store = createStore(reducer, applyMiddleware(promiseMiddleware));
 

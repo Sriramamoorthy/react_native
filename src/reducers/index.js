@@ -32,6 +32,18 @@ export const isLoggedIn = (state = false, action) => {
   }
 };
 
+export const contactsUIState = (
+  state = { page: 0, hasMoreData: true },
+  action
+) => {
+  switch (action.type) {
+    case "UPDATE_CONTACTUI":
+      return action.data;
+    default:
+      return state;
+  }
+};
+
 export const contacts = (state = [], action) => {
   switch (action.type) {
     case "GET_CONTACT_SUCCESS":

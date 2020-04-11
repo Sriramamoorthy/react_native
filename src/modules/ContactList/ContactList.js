@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getContacts } from "../../actions";
+import { getContacts, updateContactUIState } from "../../actions";
 import { getFullName } from "../../selector/utils";
 import { StyleSheet, Dimensions } from "react-native";
 import { ListItem, List, Icon, Divider, Button } from "@ui-kitten/components";
@@ -16,33 +16,32 @@ class ContactList extends React.Component {
   }
 
   componentDidMount() {
-    let { getContacts } = this.props;
-    let { page } = this.state;
-    getContacts(page)
-      .then((data) => {
-        if (data["data"].length % 20 === 0) {
-          this.setState({ hasMoreData: true });
-        } else {
-          this.setState({ hasMoreData: false });
-        }
-      })
-      .catch();
+    let { getContacts, updateContactUIState, hasMoreData, page } = this.props;
+    if (hasMoreData) {
+      getContacts(page)
+        .then((data) => {
+          updateContactUIState({
+            page: ++page,
+            hasMoreData: data["data"].length % 20 === 0,
+          });
+        })
+        .catch();
+    }
   }
 
   onScroll(e) {
-    let { apiLoading, hasMoreData, page } = this.state;
-    let { getContacts } = this.props;
+    let { apiLoading } = this.state;
+    let { getContacts, hasMoreData, page, updateContactUIState } = this.props;
     var windowHeight = Dimensions.get("window").height,
       height = e.nativeEvent.contentSize.height,
       offset = e.nativeEvent.contentOffset.y;
     if (windowHeight + offset >= height && !apiLoading && hasMoreData) {
       this.setState({ apiLoading: true, page: ++this.state.page });
-      getContacts(this.state.page).then((data) => {
-        if (data["data"].length % 20 === 0) {
-          this.setState({ hasMoreData: true });
-        } else {
-          this.setState({ hasMoreData: false });
-        }
+      getContacts(page).then((data) => {
+        updateContactUIState({
+          page: ++page,
+          hasMoreData: data["data"].length % 20 === 0,
+        });
         this.setState({ apiLoading: false });
       });
     }
@@ -86,9 +85,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   const { contacts } = state;
-  return { contacts };
+  const { page, hasMoreData } = state.contactsUIState;
+  return { contacts, page, hasMoreData };
 };
 
-const mapDispatchToProps = { getContacts };
+const mapDispatchToProps = { getContacts, updateContactUIState };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);

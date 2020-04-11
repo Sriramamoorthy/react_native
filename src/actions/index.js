@@ -44,6 +44,13 @@ export const getContacts = (page) => ({
   },
 });
 
+export const updateContactUIState = (data) => {
+  return {
+    type: "UPDATE_CONTACTUI",
+    data,
+  };
+};
+
 export const getServices = () => ({
   types: ["GET_SERVICE_REQUEST", "GET_SERVICE_SUCCESS", "GET_SERVICE_FAILURE"],
   callAPI: (state) => {
