@@ -3,11 +3,10 @@ import {
   BottomNavigation,
   BottomNavigationTab,
   Icon,
-  TopNavigation,
   Text,
   Layout,
 } from "@ui-kitten/components";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions, View } from "react-native";
 import ContactList from "../ContactList/ContactList";
 import ServiceList from "../ServiceList/ServiceList";
 import Settings from "../settings/Settings";
@@ -49,13 +48,29 @@ export default class ModuleContainer extends React.Component {
     return (
       <Layout style={styles.container}>
         <Layout style={styles.layout1} level="3">
-          <Text style={{ fontWeight: "bold" }}>
+          <Text
+            style={{
+              fontWeight: "bold",
+              flex: 1,
+              left: 15,
+            }}
+          >
             {selectedIndex === 0
               ? "Contacts"
               : selectedIndex === 1
               ? "Services"
               : "Settings"}
           </Text>
+          <Icon
+            style={{
+              width: 32,
+              height: 32,
+              flex: 1,
+              right: 15,
+            }}
+            fill="#8F9BB3"
+            name="person-add"
+          />
         </Layout>
 
         <Layout style={styles.layout2} level="2">
@@ -101,13 +116,14 @@ const styles = StyleSheet.create({
   layout1: {
     justifyContent: "center",
     alignItems: "center",
-    height: "7%",
+    height: Dimensions.get("window").height * 0.07,
     width: "100%",
+    flexDirection: "row",
   },
   layout2: {
-    height: "88%",
+    height: Dimensions.get("window").height * 0.9,
   },
   layout3: {
-    height: "5%",
+    height: Dimensions.get("window").height * 0.03,
   },
 });
