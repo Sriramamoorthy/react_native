@@ -6,6 +6,7 @@ import {
   ScrollView,
   Keyboard,
   Dimensions,
+  Alert,
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { getHeaderHeight, getInnerContainerHeight } from "../../selector/utils";
@@ -58,7 +59,6 @@ class ContactForm extends React.Component {
     this.setState({
       containerHeight: getInnerContainerHeight(),
     });
-    console.log(e.endCoordinates.height);
   }
 
   onChangeText(key, val) {
@@ -70,15 +70,49 @@ class ContactForm extends React.Component {
   }
 
   getData() {
-    console.log({
-      value: this.phone.getValue(),
-      countryCode: this.phone.getCountryCode(),
-      isoCode: this.phone.getISOCode(),
-    });
+    if (this.phone.isValidNumber()) {
+      return {
+        client_mobile: this.phone.getValue(),
+        client_dial_number: this.phone.getCountryCode(),
+        client_phone_code: this.phone.getISOCode(),
+      };
+    } else {
+      return false;
+    }
+  }
+
+  validateData(payload, phonedata) {
+    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (payload.client_firstname.length <= 2) {
+      Alert.alert("Enter a valid First name");
+      return false;
+    } else if (!phonedata && payload.client_email === "") {
+      Alert.alert("Enter email or phone");
+      return false;
+    } else if (
+      payload.client_email != "" &&
+      !emailRegex.test(payload.client_email)
+    ) {
+      Alert.alert("Enter a valid Email");
+      return false;
+    }
+    return true;
   }
 
   onSave() {
-    console.log(this.state);
+    let { onSaveForm } = this.props;
+    let payload = Object.assign({}, this.state.payload);
+    let phonedata = this.getData();
+    let isValidData = this.validateData(payload, phonedata);
+    if (isValidData) {
+      if (phonedata) {
+        payload = Object.assign(payload, phonedata);
+      } else {
+        Alert.alert(`Enter a valid phone number`);
+        return;
+      }
+      onSaveForm && onSaveForm(payload);
+    }
   }
 
   render() {
@@ -105,7 +139,7 @@ class ContactForm extends React.Component {
               left: 15,
             }}
           >
-            Contacts
+            Create Contact
           </Text>
           <Text
             style={{
@@ -169,15 +203,6 @@ class ContactForm extends React.Component {
                 }}
                 value={client_mobile}
                 initialCountry={client_phone_code}
-              />
-            </View>
-
-            <View style={styles.field}>
-              <Text style={styles.label}>Email</Text>
-              <Input
-                placeholder="Email"
-                value={client_email}
-                onChangeText={this.onChangeText.bind(this, "client_email")}
               />
             </View>
             <View style={styles.field}>
@@ -250,6 +275,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
     color: "#747d8c",
+    marginLeft: 2,
   },
   header: {
     alignItems: "center",
