@@ -1,28 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
-import { getContacts, updateContactUIState } from "../../actions";
-import {
-  getFullName,
-  getHeaderHeight,
-  getContainerHeight,
-} from "../../selector/utils";
-import {
-  StyleSheet,
-  Dimensions,
-  StatusBar,
-  TouchableWithoutFeedback,
-} from "react-native";
-import { getStatusBarHeight } from "react-native-status-bar-height";
+import { getHeaderHeight, getContainerHeight } from "../../selector/utils";
+import { StyleSheet } from "react-native";
 
-import {
-  ListItem,
-  List,
-  Icon,
-  Divider,
-  Button,
-  Layout,
-  Text,
-} from "@ui-kitten/components";
+import { Layout } from "@ui-kitten/components";
 import ContactList from "./ContactList";
 import ContactForm from "./ContactForm";
 class Contacts extends React.Component {

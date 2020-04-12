@@ -1,5 +1,6 @@
 import Request from "../Request/Request";
 import { getTokens } from "../selector";
+import { convertToObject } from "../selector/utils";
 export const getMeta = () => ({
   types: ["META_REQUEST", "META_SUCCESS", "META_FAILURE"],
   callAPI: () => {
@@ -39,7 +40,11 @@ export const getContacts = (page) => ({
     return Request("https://api.goschedule.io/customer/list/" + page, tokens)
       .get()
       .then((res) => {
-        return res["data"].customers || [];
+        let { obj, ids } = convertToObject(
+          res["data"].customers || [],
+          "client_id"
+        );
+        return { obj, ids, entity: "contacts" };
       });
   },
 });

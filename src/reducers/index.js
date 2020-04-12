@@ -1,17 +1,3 @@
-const INITIAL_STATE = {
-  current: [],
-  possible: ["Allie", "Gator", "Lizzie", "Reptar"],
-};
-
-export const friendReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case "META_SUCCESS":
-      return "sriram";
-    default:
-      return state;
-  }
-};
-
 export const orgData = (state = "", action) => {
   switch (action.type) {
     case "META_SUCCESS":
@@ -44,11 +30,11 @@ export const contactsUIState = (
   }
 };
 
-export const contacts = (state = [], action) => {
+export const contacts = (state = {}, action) => {
   switch (action.type) {
     case "GET_CONTACT_SUCCESS":
-      let newState = state;
-      newState = [...newState, ...action.data];
+      let newState = Object.assign({}, state);
+      newState = Object.assign(newState, action.data.obj);
       return newState;
     default:
       return state;
@@ -62,4 +48,19 @@ export const services = (state = [], action) => {
     default:
       return state;
   }
+};
+
+export const ids = (state = {}, action) => {
+  if (action.type.indexOf("_SUCCESS")) {
+    let newState = Object.assign({}, state);
+    if (action.data && action.data.entity) {
+      let modules = newState[action.data.entity] || [];
+      modules = [...modules, ...action.data.ids];
+      // Object.assign(module, { [action.data.entity]: action.data.ids || [] });
+      return Object.assign(newState, {
+        [action.data.entity]: modules,
+      });
+    }
+  }
+  return state;
 };

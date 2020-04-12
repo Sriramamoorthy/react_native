@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { getContacts, updateContactUIState } from "../../actions";
 import {
   getFullName,
-  getContainerHeight,
   getHeaderHeight,
   getInnerContainerHeight,
+  getContactArray,
 } from "../../selector/utils";
 import { StyleSheet, Dimensions, TouchableWithoutFeedback } from "react-native";
 import {
@@ -13,7 +13,6 @@ import {
   List,
   Icon,
   Divider,
-  Button,
   Layout,
   Text,
 } from "@ui-kitten/components";
@@ -32,10 +31,10 @@ class ContactList extends React.Component {
     let { getContacts, updateContactUIState, hasMoreData, page } = this.props;
     if (hasMoreData) {
       getContacts(page)
-        .then((data) => {
+        .then((res) => {
           updateContactUIState({
             page: ++page,
-            hasMoreData: data["data"].length % 20 === 0,
+            hasMoreData: res.data["ids"].length % 20 === 0,
           });
         })
         .catch();
@@ -50,10 +49,10 @@ class ContactList extends React.Component {
       offset = e.nativeEvent.contentOffset.y;
     if (windowHeight + offset >= height && !apiLoading && hasMoreData) {
       this.setState({ apiLoading: true, page: ++this.state.page });
-      getContacts(page).then((data) => {
+      getContacts(page).then((res) => {
         updateContactUIState({
           page: ++page,
-          hasMoreData: data["data"].length % 20 === 0,
+          hasMoreData: res.data["ids"].length % 20 === 0,
         });
         this.setState({ apiLoading: false });
       });
@@ -61,8 +60,7 @@ class ContactList extends React.Component {
   }
   render() {
     const renderItemIcon = <Icon name="person" />;
-    const renderItemAccessory = (props) => <Button size="tiny">FOLLOW</Button>;
-    let { contacts, onClickAdd } = this.props;
+    let { onClickAdd, contactList } = this.props;
 
     const renderItem = ({ item, index }) => (
       <ListItem
@@ -70,7 +68,6 @@ class ContactList extends React.Component {
         title={`${getFullName(item.client_firstname, item.client_lastname)}`}
         description={`${item.client_email} ${item.client_mobile || ""}`}
         accessoryLeft={renderItemIcon}
-        accessoryRight={renderItemAccessory}
       />
     );
 
@@ -100,10 +97,10 @@ class ContactList extends React.Component {
           </TouchableWithoutFeedback>
         </Layout>
         <Layout style={styles.listContainer}>
-          {contacts.length ? (
+          {contactList.length ? (
             <List
               style={styles.container}
-              data={contacts}
+              data={contactList}
               ItemSeparatorComponent={Divider}
               renderItem={renderItem}
               onScroll={this.onScroll}
@@ -137,8 +134,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   const { contacts } = state;
+  let contactIds = state.ids.contacts || [];
+  let contactArray = getContactArray(contacts, contactIds);
   const { page, hasMoreData } = state.contactsUIState;
-  return { contacts, page, hasMoreData };
+  return {
+    contacts,
+    page,
+    hasMoreData,
+    contactIds: state.ids.contacts || [],
+    contactList: contactArray,
+  };
 };
 
 const mapDispatchToProps = { getContacts, updateContactUIState };

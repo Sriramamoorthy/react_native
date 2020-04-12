@@ -1,6 +1,17 @@
 import { Dimensions } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 
+export const convertToObject = (arrayObj, key) => {
+  let length = arrayObj.length;
+  let newObj = {};
+  let ids = [];
+  for (let i = 0; i < length; i++) {
+    Object.assign(newObj, { [arrayObj[i][key || "id"]]: arrayObj[i] });
+    ids.push(arrayObj[i][key || "id"]);
+  }
+  return { obj: newObj, ids: ids };
+};
+
 export const getFullName = (first_name = "", last_name = "") => {
   let name = "";
   name = first_name ? first_name + " " : "";
@@ -23,4 +34,12 @@ export const getInnerContainerHeight = () => {
     getHeaderHeight() -
     getStatusBarHeight()
   );
+};
+
+export const getContactArray = (contacts, ids) => {
+  let contactList = [];
+  ids.map((id) => {
+    contactList.push(contacts[id]);
+  });
+  return contactList;
 };

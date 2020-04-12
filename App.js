@@ -3,12 +3,12 @@ import AppContainer from "./src/modules/AppContainer/AppContainer.js";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import {
-  friendReducer,
   isLoggedIn,
   contacts,
   orgData,
   services,
   contactsUIState,
+  ids,
 } from "./src/reducers";
 import promiseMiddleware from "./src/middlewares/promisemiddleware";
 import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
@@ -17,14 +17,14 @@ import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { logger } from "redux-logger";
 
 const reducer = combineReducers({
-  friendReducer,
   isLoggedIn,
   contacts,
   services,
   orgData,
   contactsUIState,
+  ids,
 });
-const store = createStore(reducer, applyMiddleware(promiseMiddleware));
+const store = createStore(reducer, applyMiddleware(logger, promiseMiddleware));
 
 export default function App() {
   return (
