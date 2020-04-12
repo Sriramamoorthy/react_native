@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getContacts, updateContactUIState } from "../../actions";
-import { getFullName } from "../../selector/utils";
+import { getFullName, getContainerHeight } from "../../selector/utils";
 import { StyleSheet, Dimensions } from "react-native";
 import { ListItem, List, Icon, Divider, Button } from "@ui-kitten/components";
 class ContactList extends React.Component {
@@ -76,7 +76,7 @@ class ContactList extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: "95%",
+    height: "100%",
     width: "100%",
     position: "absolute",
     fontSize: 24,

@@ -6,10 +6,11 @@ import {
   Text,
   Layout,
 } from "@ui-kitten/components";
-import { StyleSheet, Dimensions, View } from "react-native";
-import ContactList from "../ContactList/ContactList";
+import { StyleSheet, Dimensions, View, StatusBar } from "react-native";
+import Contacts from "../Contacts/Contacts";
 import ServiceList from "../ServiceList/ServiceList";
 import Settings from "../settings/Settings";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 export default class ModuleContainer extends React.Component {
   constructor(props) {
@@ -30,10 +31,10 @@ export default class ModuleContainer extends React.Component {
 
   render() {
     let { selectedIndex } = this.state;
-    let selectedComponent = <ContactList />;
+    let selectedComponent = <Contacts />;
     switch (selectedIndex) {
       case 0:
-        selectedComponent = <ContactList />;
+        selectedComponent = <Contacts />;
         break;
       case 1:
         selectedComponent = <ServiceList />;
@@ -47,32 +48,9 @@ export default class ModuleContainer extends React.Component {
     }
     return (
       <Layout style={styles.container}>
-        <Layout style={styles.layout1} level="3">
-          <Text
-            style={{
-              fontWeight: "bold",
-              flex: 1,
-              left: 15,
-            }}
-          >
-            {selectedIndex === 0
-              ? "Contacts"
-              : selectedIndex === 1
-              ? "Services"
-              : "Settings"}
-          </Text>
-          <Icon
-            style={{
-              width: 32,
-              height: 32,
-              flex: 1,
-              right: 15,
-            }}
-            fill="#8F9BB3"
-            name="person-add"
-          />
+        <Layout style={styles.layout1}>
+          <StatusBar backgroundColor="black" barStyle="red" />
         </Layout>
-
         <Layout style={styles.layout2} level="2">
           {selectedComponent}
         </Layout>
@@ -107,23 +85,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     position: "absolute",
     width: "100%",
+    color: "#005dff",
   },
   container: {
     flex: 1,
     flexDirection: "column",
     width: "100%",
   },
-  layout1: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: Dimensions.get("window").height * 0.07,
-    width: "100%",
-    flexDirection: "row",
-  },
   layout2: {
-    height: Dimensions.get("window").height * 0.9,
+    height: Dimensions.get("window").height * 0.97 - getStatusBarHeight(),
   },
   layout3: {
     height: Dimensions.get("window").height * 0.03,
+  },
+  layout1: {
+    height: getStatusBarHeight(),
   },
 });
