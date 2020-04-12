@@ -1,9 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getContacts, updateContactUIState } from "../../actions";
-import { getFullName, getContainerHeight } from "../../selector/utils";
-import { StyleSheet, Dimensions } from "react-native";
-import { ListItem, List, Icon, Divider, Button } from "@ui-kitten/components";
+import {
+  getFullName,
+  getContainerHeight,
+  getHeaderHeight,
+  getInnerContainerHeight,
+} from "../../selector/utils";
+import { StyleSheet, Dimensions, TouchableWithoutFeedback } from "react-native";
+import {
+  ListItem,
+  List,
+  Icon,
+  Divider,
+  Button,
+  Layout,
+  Text,
+} from "@ui-kitten/components";
 class ContactList extends React.Component {
   constructor(props) {
     super(props);
@@ -49,7 +62,7 @@ class ContactList extends React.Component {
   render() {
     const renderItemIcon = <Icon name="person" />;
     const renderItemAccessory = (props) => <Button size="tiny">FOLLOW</Button>;
-    let { contacts } = this.props;
+    let { contacts, onClickAdd } = this.props;
 
     const renderItem = ({ item, index }) => (
       <ListItem
@@ -61,16 +74,45 @@ class ContactList extends React.Component {
       />
     );
 
-    return contacts.length ? (
-      <List
-        style={styles.container}
-        data={contacts}
-        ItemSeparatorComponent={Divider}
-        renderItem={renderItem}
-        onScroll={this.onScroll}
-        scrollEventThrottle="80%"
-      />
-    ) : null;
+    return (
+      <Layout>
+        <Layout style={styles.header} level="3">
+          <Text
+            style={{
+              fontWeight: "bold",
+              flex: 1,
+              left: 15,
+            }}
+          >
+            Contacts
+          </Text>
+          <TouchableWithoutFeedback onPress={onClickAdd}>
+            <Icon
+              style={{
+                width: 32,
+                height: 32,
+                flex: 1,
+                right: 15,
+              }}
+              fill="#005dff"
+              name="person-add"
+            />
+          </TouchableWithoutFeedback>
+        </Layout>
+        <Layout style={styles.listContainer}>
+          {contacts.length ? (
+            <List
+              style={styles.container}
+              data={contacts}
+              ItemSeparatorComponent={Divider}
+              renderItem={renderItem}
+              onScroll={this.onScroll}
+              scrollEventThrottle="80%"
+            />
+          ) : null}
+        </Layout>
+      </Layout>
+    );
   }
 }
 
@@ -80,6 +122,16 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "absolute",
     fontSize: 24,
+  },
+  header: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: getHeaderHeight(),
+    width: "100%",
+    flexDirection: "row",
+  },
+  listContainer: {
+    height: getInnerContainerHeight(),
   },
 });
 

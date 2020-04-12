@@ -40,49 +40,21 @@ class Contacts extends React.Component {
     });
   }
 
+  onSaveForm(payload) {
+    console.log(payload);
+  }
+
   componentDidMount() {}
 
   render() {
     let { selectedPage } = this.state;
     return (
       <Layout style={styles.mainContainer}>
-        <Layout style={styles.header} level="3">
-          <Text
-            style={{
-              fontWeight: "bold",
-              flex: 1,
-              left: 15,
-            }}
-          >
-            Contacts
-          </Text>
-          <TouchableWithoutFeedback onPress={this.onClickAdd}>
-            {selectedPage === "list" ? (
-              <Icon
-                style={{
-                  width: 32,
-                  height: 32,
-                  flex: 1,
-                  right: 15,
-                }}
-                fill="#005dff"
-                name="person-add"
-              />
-            ) : (
-              <Text
-                style={{ color: "#005dff", right: 15, fontWeight: "bold" }}
-                onPress={this.onClickSave}
-              >
-                Save
-              </Text>
-            )}
-          </TouchableWithoutFeedback>
-        </Layout>
         <Layout style={styles.container}>
           {selectedPage === "list" ? (
-            <ContactList />
+            <ContactList onClickAdd={this.onClickAdd} />
           ) : selectedPage === "addForm" ? (
-            <ContactForm />
+            <ContactForm onSaveForm={this.onSaveForm} />
           ) : null}
         </Layout>
       </Layout>

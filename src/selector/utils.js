@@ -13,5 +13,14 @@ export const getHeaderHeight = () => {
 };
 
 export const getContainerHeight = () => {
-  return Dimensions.get("window").height * 0.85 - getStatusBarHeight();
+  return Dimensions.get("window").height * 0.97 - getStatusBarHeight();
+};
+
+export const getInnerContainerHeight = () => {
+  return (
+    Dimensions.get("window").height * 0.97 -
+    Dimensions.get("window").height * 0.05 -
+    getHeaderHeight() -
+    getStatusBarHeight()
+  );
 };
