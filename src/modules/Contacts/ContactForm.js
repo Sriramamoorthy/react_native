@@ -1,6 +1,12 @@
 import React from "react";
 import { Layout, Input, Text, Button } from "@ui-kitten/components";
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Keyboard,
+  Dimensions,
+} from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { getHeaderHeight, getInnerContainerHeight } from "../../selector/utils";
 class ContactForm extends React.Component {
@@ -8,27 +14,59 @@ class ContactForm extends React.Component {
     super(props);
     this.onChangeText = this.onChangeText.bind(this);
     this.getData = this.getData.bind(this);
+    this.onSave = this.onSave.bind(this);
     this.state = {
-      client_firstname: "",
-      client_lastname: "",
-      client_email: "",
-      client_phone_code: "in",
-      client_mobile: "",
-      client_dial_number: "",
+      payload: {
+        client_firstname: "",
+        client_lastname: "",
+        client_email: "",
+        client_phone_code: "in",
+        client_mobile: "",
+        client_dial_number: "",
+        client_address_line: "",
+        client_address_line2: "",
+        client_state: "",
+        client_country: "",
+        client_pincode: "",
+      },
+      containerHeight: getInnerContainerHeight(),
     };
+    this.keyboardWillShowListener = null;
   }
 
-  onChangeText(val) {
-    console.log(val);
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener(
+      "keyboardWillShow",
+      this.keyboardWillShow.bind(this)
+    );
+    this.keyboardWillShowListener = Keyboard.addListener(
+      "keyboardWillHide",
+      this.keyboardWillHide.bind(this)
+    );
   }
 
-  onSelectCountry(a, b, c, d, e) {
-    console.log(a, b, c, d, e);
+  keyboardWillShow(e) {
+    this.setState({
+      containerHeight:
+        getInnerContainerHeight() -
+        e.endCoordinates.height +
+        Dimensions.get("window").height * 0.05,
+    });
   }
 
-  onChangePhoneNumber(a, b, c, d, e) {
-    console.log(a, b, c, d, e);
-    console.log(this.phone);
+  keyboardWillHide(e) {
+    this.setState({
+      containerHeight: getInnerContainerHeight(),
+    });
+    console.log(e.endCoordinates.height);
+  }
+
+  onChangeText(key, val) {
+    let data = { [key]: val };
+    let payload = Object.assign({}, this.state.payload, data);
+    this.setState({
+      payload: payload,
+    });
   }
 
   getData() {
@@ -39,6 +77,10 @@ class ContactForm extends React.Component {
     });
   }
 
+  onSave() {
+    console.log(this.state);
+  }
+
   render() {
     let {
       client_email,
@@ -46,7 +88,13 @@ class ContactForm extends React.Component {
       client_lastname,
       client_mobile,
       client_phone_code,
-    } = this.state;
+      client_address_line,
+      client_address_line2,
+      client_state,
+      client_country,
+      client_pincode,
+    } = this.state.payload;
+    let { containerHeight } = this.state;
     return (
       <Layout>
         <Layout style={styles.header} level="3">
@@ -70,7 +118,7 @@ class ContactForm extends React.Component {
             Save
           </Text>
         </Layout>
-        <Layout style={styles.listContainer}>
+        <Layout style={{ height: containerHeight }}>
           <ScrollView
             style={{ padding: 10, height: "100%", overflow: "hidden" }}
           >
@@ -79,7 +127,7 @@ class ContactForm extends React.Component {
               <Input
                 placeholder="Enter atleast 2 characters"
                 value={client_firstname}
-                onChangeText={this.onChangeText}
+                onChangeText={this.onChangeText.bind(this, "client_firstname")}
               />
             </View>
             <View style={styles.field}>
@@ -87,7 +135,7 @@ class ContactForm extends React.Component {
               <Input
                 placeholder="(Optional)"
                 value={client_lastname}
-                onChangeText={this.onChangeText}
+                onChangeText={this.onChangeText.bind(this, "client_lastname")}
               />
             </View>
             <View style={styles.field}>
@@ -95,7 +143,7 @@ class ContactForm extends React.Component {
               <Input
                 placeholder="Email"
                 value={client_email}
-                onChangeText={this.onChangeText}
+                onChangeText={this.onChangeText.bind(this, "client_email")}
               />
             </View>
             <View style={styles.field}>
@@ -119,8 +167,6 @@ class ContactForm extends React.Component {
                 ref={(ref) => {
                   this.phone = ref;
                 }}
-                onChangePhoneNumber={this.onChangePhoneNumber}
-                onSelectCountry={this.onSelectCountry}
                 value={client_mobile}
                 initialCountry={client_phone_code}
               />
@@ -131,43 +177,41 @@ class ContactForm extends React.Component {
               <Input
                 placeholder="Email"
                 value={client_email}
-                onChangeText={this.onChangeText}
-              />
-            </View>
-            <View style={styles.field}>
-              <Text style={styles.label}>Address 1</Text>
-              <Input
-                placeholder="Email"
-                value={client_email}
-                onChangeText={this.onChangeText}
+                onChangeText={this.onChangeText.bind(this, "client_email")}
               />
             </View>
             <View style={styles.field}>
               <Text style={styles.label}>Address Line</Text>
               <Input
                 placeholder="Address Line"
-                value={client_email}
-                onChangeText={this.onChangeText}
+                value={client_address_line}
+                onChangeText={this.onChangeText.bind(
+                  this,
+                  "client_address_line"
+                )}
               />
               <Input
                 placeholder="City"
-                value={client_email}
-                onChangeText={this.onChangeText}
+                value={client_address_line2}
+                onChangeText={this.onChangeText.bind(
+                  this,
+                  "client_address_line2"
+                )}
               />
               <Input
                 placeholder="State"
-                value={client_email}
-                onChangeText={this.onChangeText}
+                value={client_state}
+                onChangeText={this.onChangeText.bind(this, "client_state")}
               />
               <Input
                 placeholder="Country"
-                value={client_email}
-                onChangeText={this.onChangeText}
+                value={client_country}
+                onChangeText={this.onChangeText.bind(this, "client_country")}
               />
               <Input
                 placeholder="Zip Code"
-                value={client_email}
-                onChangeText={this.onChangeText}
+                value={client_pincode}
+                onChangeText={this.onChangeText.bind(this, "client_pincode")}
               />
             </View>
             {/* <View
