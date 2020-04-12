@@ -199,7 +199,7 @@ class ContactForm extends React.Component {
                 style={{
                   borderStyle: "solid",
                   width: "100%",
-                  borderRadius: "5px",
+                  borderRadius: 5,
                   height: 40,
                   borderWidth: 1,
                   backgroundColor: "#F7F9FC",
