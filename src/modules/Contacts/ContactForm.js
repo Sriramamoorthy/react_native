@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Input, Text, Button } from "@ui-kitten/components";
+import { Layout, Input, Text, Button, Icon } from "@ui-kitten/components";
 import {
   View,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Keyboard,
   Dimensions,
   Alert,
+  TouchableWithoutFeedback,
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { getHeaderHeight, getInnerContainerHeight } from "../../selector/utils";
@@ -129,14 +130,26 @@ class ContactForm extends React.Component {
       client_pincode,
     } = this.state.payload;
     let { containerHeight } = this.state;
+    let { onClickBack } = this.props;
     return (
       <Layout>
         <Layout style={styles.header} level="3">
+          <TouchableWithoutFeedback onPress={onClickBack}>
+            <Icon
+              style={{
+                width: 32,
+                height: 32,
+              }}
+              fill="#000000"
+              name="arrow-ios-back-outline"
+            />
+          </TouchableWithoutFeedback>
+
           <Text
             style={{
               fontWeight: "bold",
               flex: 1,
-              left: 15,
+              left: 10,
             }}
           >
             Create Contact

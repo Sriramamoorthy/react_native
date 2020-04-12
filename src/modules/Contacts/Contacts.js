@@ -12,11 +12,18 @@ class Contacts extends React.Component {
       selectedPage: "list",
     };
     this.onClickAdd = this.onClickAdd.bind(this);
+    this.goToList = this.goToList.bind(this);
   }
 
   onClickAdd() {
     this.setState({
       selectedPage: "addForm",
+    });
+  }
+
+  goToList() {
+    this.setState({
+      selectedPage: "list",
     });
   }
 
@@ -34,7 +41,10 @@ class Contacts extends React.Component {
           {selectedPage === "list" ? (
             <ContactList onClickAdd={this.onClickAdd} />
           ) : selectedPage === "addForm" ? (
-            <ContactForm onSaveForm={this.onSaveForm} />
+            <ContactForm
+              onSaveForm={this.onSaveForm}
+              onClickBack={this.goToList}
+            />
           ) : null}
         </Layout>
       </Layout>
