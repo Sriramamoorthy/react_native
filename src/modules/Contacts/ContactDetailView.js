@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getContacts, updateContactUIState } from "../../actions";
+import { getContact, updateContactUIState } from "../../actions";
 import {
   getFullName,
   getHeaderHeight,
@@ -38,7 +38,8 @@ class ContactDetailView extends React.Component {
   }
 
   componentDidMount() {
-    let { id } = this.props;
+    let { id, getContact } = this.props;
+    getContact(id).then();
   }
 
   render() {
@@ -48,9 +49,11 @@ class ContactDetailView extends React.Component {
       client_lastname,
       client_email = "",
       client_phone = "",
+      internal_notes = "",
     } = this.props.contact;
-    let { onClickBack } = this.props;
+    let { onClickBack, schedule } = this.props;
     let fullName = getFullName(client_firstname, client_lastname);
+
     const data = new Array(8).fill({
       title: "Item",
     });
@@ -63,9 +66,10 @@ class ContactDetailView extends React.Component {
             fontSize: 15,
             fontWeight: "bold",
             padding: 10,
+            textTransform: "capitalize",
           }}
         >
-          {info.item.title} {info.index + 1}
+          {info.item.status}
         </Text>
       </View>
     );
@@ -76,7 +80,7 @@ class ContactDetailView extends React.Component {
         status="basic"
         header={(headerProps) => renderItemHeader(headerProps, info)}
       >
-        <Text>Hatha Yoga Class</Text>
+        <Text>{info.item.appmt_service_entity.service_name}</Text>
         <Text>16 June 2021, 10:00 AM</Text>
       </Card>
     );
@@ -121,8 +125,10 @@ class ContactDetailView extends React.Component {
           </TabBar>
           {selectedIndex === 0 ? (
             <Layout>
-              <List data={data} renderItem={renderItem} />
+              <List data={schedule} renderItem={renderItem} />
             </Layout>
+          ) : selectedIndex === 2 ? (
+            <Text>{internal_notes}</Text>
           ) : null}
         </Layout>
       </Layout>
@@ -154,9 +160,10 @@ const mapStateToProps = (state, props) => {
   let contact = state.contacts[contactId];
   return {
     contact,
+    schedule: contact.schedule || [],
   };
 };
 
-const mapDispatchToProps = { getContacts, updateContactUIState };
+const mapDispatchToProps = { getContact, updateContactUIState };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactDetailView);

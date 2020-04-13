@@ -32,10 +32,14 @@ export const contactsUIState = (
 
 export const contacts = (state = {}, action) => {
   switch (action.type) {
-    case "GET_CONTACT_SUCCESS":
+    case "GET_CONTACTS_SUCCESS":
       let newState = Object.assign({}, state);
       newState = Object.assign(newState, action.data.obj);
       return newState;
+    case "GET_CONTACT_SUCCESS":
+      let nState = Object.assign({}, state);
+      nState = Object.assign({}, nState, { [action.data.id]: action.data.obj });
+      return nState;
     default:
       return state;
   }

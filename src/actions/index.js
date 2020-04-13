@@ -34,7 +34,11 @@ export const toggleLogIn = (isLoggedIn) => {
 };
 
 export const getContacts = (page) => ({
-  types: ["GET_CONTACT_REQUEST", "GET_CONTACT_SUCCESS", "GET_CONTACT_FAILURE"],
+  types: [
+    "GET_CONTACTS_REQUEST",
+    "GET_CONTACTS_SUCCESS",
+    "GET_CONTACTS_FAILURE",
+  ],
   callAPI: (state) => {
     let tokens = getTokens(state);
     return Request("https://api.goschedule.io/customer/list/" + page, tokens)
@@ -45,6 +49,21 @@ export const getContacts = (page) => ({
           "client_id"
         );
         return { obj, ids, entity: "contacts" };
+      });
+  },
+});
+
+export const getContact = (id) => ({
+  types: ["GET_CONTACT_REQUEST", "GET_CONTACT_SUCCESS", "GET_CONTACT_FAILURE"],
+  callAPI: (state) => {
+    let tokens = getTokens(state);
+    return Request("https://api.goschedule.io/customer/" + id, tokens)
+      .get()
+      .then((res) => {
+        let obj = res["data"].customer;
+        let schedule = res["data"].schedule || [];
+        let contact = Object.assign(obj, { schedule: schedule });
+        return { obj: contact, id: contact.client_id };
       });
   },
 });
