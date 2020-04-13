@@ -20,6 +20,7 @@ class ContactList extends React.Component {
   constructor(props) {
     super(props);
     this.onScroll = this.onScroll.bind(this);
+    this.onClickContact = this.onClickContact.bind(this);
     this.state = {
       page: 0,
       apiLoading: false,
@@ -39,6 +40,11 @@ class ContactList extends React.Component {
         })
         .catch();
     }
+  }
+
+  onClickContact(id) {
+    let { onClickContact } = this.props;
+    onClickContact && onClickContact(id);
   }
 
   onScroll(e) {
@@ -68,6 +74,7 @@ class ContactList extends React.Component {
         title={`${getFullName(item.client_firstname, item.client_lastname)}`}
         description={`${item.client_email} ${item.client_mobile || ""}`}
         accessoryLeft={renderItemIcon}
+        onPress={this.onClickContact.bind(this, item.client_id)}
       />
     );
 

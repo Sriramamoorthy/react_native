@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 import { Layout } from "@ui-kitten/components";
 import ContactList from "./ContactList";
 import ContactForm from "./ContactForm";
+import ContactDetailView from "./ContactDetailView";
 class Contacts extends React.Component {
   constructor(props) {
     super(props);
@@ -13,11 +14,18 @@ class Contacts extends React.Component {
     };
     this.onClickAdd = this.onClickAdd.bind(this);
     this.goToList = this.goToList.bind(this);
+    this.onClickContact = this.onClickContact.bind(this);
   }
 
   onClickAdd() {
     this.setState({
       selectedPage: "addForm",
+    });
+  }
+
+  onClickContact(id) {
+    this.setState({
+      selectedPage: "detailview",
     });
   }
 
@@ -39,12 +47,17 @@ class Contacts extends React.Component {
       <Layout style={styles.mainContainer}>
         <Layout style={styles.container}>
           {selectedPage === "list" ? (
-            <ContactList onClickAdd={this.onClickAdd} />
+            <ContactList
+              onClickAdd={this.onClickAdd}
+              onClickContact={this.onClickContact}
+            />
           ) : selectedPage === "addForm" ? (
             <ContactForm
               onSaveForm={this.onSaveForm}
               onClickBack={this.goToList}
             />
+          ) : selectedPage === "detailview" ? (
+            <ContactDetailView />
           ) : null}
         </Layout>
       </Layout>
