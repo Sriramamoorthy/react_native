@@ -11,6 +11,7 @@ class Contacts extends React.Component {
     super(props);
     this.state = {
       selectedPage: "list",
+      selectedContact: null,
     };
     this.onClickAdd = this.onClickAdd.bind(this);
     this.goToList = this.goToList.bind(this);
@@ -26,6 +27,7 @@ class Contacts extends React.Component {
   onClickContact(id) {
     this.setState({
       selectedPage: "detailview",
+      selectedContact: id,
     });
   }
 
@@ -42,7 +44,7 @@ class Contacts extends React.Component {
   componentDidMount() {}
 
   render() {
-    let { selectedPage } = this.state;
+    let { selectedPage, selectedContact } = this.state;
     return (
       <Layout style={styles.mainContainer}>
         <Layout style={styles.container}>
@@ -57,7 +59,10 @@ class Contacts extends React.Component {
               onClickBack={this.goToList}
             />
           ) : selectedPage === "detailview" ? (
-            <ContactDetailView />
+            <ContactDetailView
+              id={selectedContact}
+              onClickBack={this.goToList}
+            />
           ) : null}
         </Layout>
       </Layout>

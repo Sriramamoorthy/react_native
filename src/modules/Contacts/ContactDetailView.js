@@ -37,50 +37,63 @@ class ContactDetailView extends React.Component {
     this.setState({ selectedIndex: index });
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    let { id } = this.props;
+  }
 
   render() {
     let { selectedIndex } = this.state;
-
+    let {
+      client_firstname,
+      client_lastname,
+      client_email = "",
+      client_phone = "",
+    } = this.props.contact;
+    let { onClickBack } = this.props;
+    let fullName = getFullName(client_firstname, client_lastname);
     const data = new Array(8).fill({
       title: "Item",
     });
 
-    // const renderItemHeader = (headerProps, info) => (
-    //   <View {...headerProps}>
-    //     <Text style={{ marginLeft: 15 }}>
-    //       {info.item.title} {info.index + 1}
-    //     </Text>
-    //   </View>
-    // );
+    const renderItemHeader = (headerProps, info) => (
+      <View {...headerProps}>
+        <Text
+          style={{
+            marginLeft: 10,
+            fontSize: 15,
+            fontWeight: "bold",
+            padding: 10,
+          }}
+        >
+          {info.item.title} {info.index + 1}
+        </Text>
+      </View>
+    );
 
-    // const renderItemFooter = (footerProps) => (
-    //   <Text {...footerProps}>By Wikipedia</Text>
-    // );
-
-    // const renderItem = (info) => (
-    //   <Card
-    //     style={{ margin: 5 }}
-    //     status="basic"
-    //     header={(headerProps) => renderItemHeader(headerProps, info)}
-    //     footer={renderItemFooter}
-    //   >
-    //     <Text>Lorem Ipsum is simply dummy text</Text>
-    //   </Card>
-    // );
-
-    const renderItem = ({ item, index }) => (
-      <React.Fragment>
-        <ListItem
-          title={`${item.title} ${index + 1}`}
-          description={`${item.description} ${index + 1}`}
-        />
-      </React.Fragment>
+    const renderItem = (info) => (
+      <Card
+        style={{ margin: 5 }}
+        status="basic"
+        header={(headerProps) => renderItemHeader(headerProps, info)}
+      >
+        <Text>Hatha Yoga Class</Text>
+        <Text>16 June 2021, 10:00 AM</Text>
+      </Card>
     );
 
     return (
       <Layout>
         <Layout style={styles.header} level="3">
+          <TouchableWithoutFeedback onPress={onClickBack}>
+            <Icon
+              style={{
+                width: 32,
+                height: 32,
+              }}
+              fill="#000000"
+              name="arrow-ios-back-outline"
+            />
+          </TouchableWithoutFeedback>
           <Text
             style={{
               fontWeight: "bold",
@@ -95,10 +108,10 @@ class ContactDetailView extends React.Component {
           <Card>
             <View>
               <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-                Sriramamoorthy
+                {fullName}
               </Text>
-              <Text>sriramamoorthys@gmail.com</Text>
-              <Text>+91 8870508426</Text>
+              <Text>{client_email}</Text>
+              <Text>{client_phone}</Text>
             </View>
           </Card>
           <TabBar selectedIndex={selectedIndex} onSelect={this.onSelectTab}>
@@ -136,20 +149,14 @@ const styles = StyleSheet.create({
   },
 });
 
-// const mapStateToProps = (state) => {
-//   const { contacts } = state;
-//   let contactIds = state.ids.contacts || [];
-//   let contactArray = getContactArray(contacts, contactIds);
-//   const { page, hasMoreData } = state.contactsUIState;
-//   return {
-//     contacts,
-//     page,
-//     hasMoreData,
-//     contactIds: state.ids.contacts || [],
-//     contactList: contactArray,
-//   };
-// };
+const mapStateToProps = (state, props) => {
+  let contactId = props.id;
+  let contact = state.contacts[contactId];
+  return {
+    contact,
+  };
+};
 
-// const mapDispatchToProps = { getContacts, updateContactUIState };
+const mapDispatchToProps = { getContacts, updateContactUIState };
 
-export default ContactDetailView;
+export default connect(mapStateToProps, mapDispatchToProps)(ContactDetailView);
