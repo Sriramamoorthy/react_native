@@ -15,12 +15,20 @@ class Contacts extends React.Component {
     };
     this.onClickAdd = this.onClickAdd.bind(this);
     this.goToList = this.goToList.bind(this);
+    this.onClickEdit = this.onClickEdit.bind(this);
     this.onClickContact = this.onClickContact.bind(this);
   }
 
   onClickAdd() {
     this.setState({
       selectedPage: "addForm",
+    });
+  }
+
+  onClickEdit(id) {
+    this.setState({
+      selectedPage: "editForm",
+      selectedContact: id,
     });
   }
 
@@ -53,15 +61,18 @@ class Contacts extends React.Component {
               onClickAdd={this.onClickAdd}
               onClickContact={this.onClickContact}
             />
-          ) : selectedPage === "addForm" ? (
+          ) : selectedPage === "addForm" || selectedPage === "editForm" ? (
             <ContactForm
               onSaveForm={this.onSaveForm}
               onClickBack={this.goToList}
+              contactId={selectedContact}
+              mode={selectedPage === "addForm" ? "add" : "edit"}
             />
           ) : selectedPage === "detailview" ? (
             <ContactDetailView
               id={selectedContact}
               onClickBack={this.goToList}
+              onClickEdit={this.onClickEdit}
             />
           ) : null}
         </Layout>

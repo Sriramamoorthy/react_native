@@ -4,3 +4,5 @@ export const getTokens = (state) => {
     xsrf: state.orgData.xsrf || "",
   };
 };
+
+export const getSingleContact = (state, id) => state.contacts[id] || {};

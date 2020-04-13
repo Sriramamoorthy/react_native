@@ -11,6 +11,9 @@ import {
 } from "react-native";
 import PhoneInput from "react-native-phone-input";
 import { getHeaderHeight, getInnerContainerHeight } from "../../selector/utils";
+import { getContact } from "../../actions";
+import { getSingleContact } from "../../selector";
+import { connect } from "react-redux";
 class ContactForm extends React.Component {
   constructor(props) {
     super(props);
@@ -37,6 +40,26 @@ class ContactForm extends React.Component {
   }
 
   componentDidMount() {
+    let { mode } = this.props;
+    if (mode === "edit") {
+      let { contact } = this.props;
+      let payload = {
+        client_firstname: contact.client_firstname || "",
+        client_lastname: contact.client_lastname || "",
+        client_email: contact.client_email || "",
+        client_phone_code: contact.client_phone_code.toLowerCase(),
+        client_mobile: contact.client_mobile || "",
+        client_dial_number: contact.client_dial_number || "",
+        client_address_line: contact.client_address_line || "",
+        client_address_line2: contact.client_address_line2 || "",
+        client_state: contact.client_state || "",
+        client_country: contact.client_country || "",
+        client_pincode: contact.client_pincode || "",
+      };
+      this.setState({
+        payload: payload,
+      });
+    }
     this.keyboardWillShowListener = Keyboard.addListener(
       "keyboardWillShow",
       this.keyboardWillShow.bind(this)
@@ -300,4 +323,15 @@ const styles = StyleSheet.create({
     height: getInnerContainerHeight(),
   },
 });
-export default ContactForm;
+
+const mapStateToProps = (state, props) => {
+  let mode = props.mode;
+  let contact = mode === "edit" ? getSingleContact(state, props.contactId) : {};
+  return {
+    contact,
+  };
+};
+
+const mapDispatchToProps = { getContact };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

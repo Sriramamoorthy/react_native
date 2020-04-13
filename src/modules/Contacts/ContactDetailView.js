@@ -42,6 +42,11 @@ class ContactDetailView extends React.Component {
     getContact(id).then();
   }
 
+  onClickEdit(id) {
+    let { onClickEdit } = this.props;
+    onClickEdit && onClickEdit(id);
+  }
+
   render() {
     let { selectedIndex } = this.state;
     let {
@@ -50,6 +55,7 @@ class ContactDetailView extends React.Component {
       client_email = "",
       client_phone = "",
       internal_notes = "",
+      client_id = "",
     } = this.props.contact;
     let { onClickBack, schedule } = this.props;
     let fullName = getFullName(client_firstname, client_lastname);
@@ -107,6 +113,20 @@ class ContactDetailView extends React.Component {
           >
             Contacts DetailView
           </Text>
+          <TouchableWithoutFeedback
+            onPress={this.onClickEdit.bind(this, client_id)}
+          >
+            <Icon
+              style={{
+                width: 32,
+                height: 32,
+                flex: 1,
+                right: 15,
+              }}
+              fill="#005dff"
+              name="edit"
+            />
+          </TouchableWithoutFeedback>
         </Layout>
         <Layout style={styles.listContainer}>
           <Card>
