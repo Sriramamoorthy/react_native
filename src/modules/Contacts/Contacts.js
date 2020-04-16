@@ -1,11 +1,13 @@
 import React from "react";
 import { getHeaderHeight, getContainerHeight } from "../../selector/utils";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 
 import { Layout } from "@ui-kitten/components";
 import ContactList from "./ContactList";
 import ContactForm from "./ContactForm";
 import ContactDetailView from "./ContactDetailView";
+import { createContact, updateContact } from "../../actions";
+import { connect } from "react-redux";
 class Contacts extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +19,7 @@ class Contacts extends React.Component {
     this.goToList = this.goToList.bind(this);
     this.onClickEdit = this.onClickEdit.bind(this);
     this.onClickContact = this.onClickContact.bind(this);
+    this.onSaveForm = this.onSaveForm.bind(this);
   }
 
   onClickAdd() {
@@ -45,8 +48,36 @@ class Contacts extends React.Component {
     });
   }
 
-  onSaveForm(payload) {
+  onSaveForm(mode, payload, contactId) {
+    let { createContact, updateContact } = this.props;
     console.log(payload);
+    if (mode != "edit") {
+      createContact(payload)
+        .then((res) => {
+          console.log("omg", res);
+          this.setState({
+            selectedPage: "detailview",
+            selectedContact: res["data"].ids[0],
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          return Alert.alert("Something went wrong. Please try again later!");
+        });
+    } else {
+      updateContact(contactId, payload)
+        .then((res) => {
+          console.log("omg", res);
+          this.setState({
+            selectedPage: "detailview",
+            selectedContact: contactId,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          return Alert.alert("Something went wrong. Please try again later!");
+        });
+    }
   }
 
   componentDidMount() {}
@@ -100,4 +131,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Contacts;
+let mapStateToProps = (state, props) => {
+  return {};
+};
+
+let mapDispatchToProps = {
+  createContact,
+  updateContact,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

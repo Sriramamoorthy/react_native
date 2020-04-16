@@ -11,6 +11,10 @@ import Contacts from "../Contacts/Contacts";
 import ServiceList from "../ServiceList/ServiceList";
 import Settings from "../settings/Settings";
 import { getStatusBarHeight } from "react-native-status-bar-height";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 export default class ModuleContainer extends React.Component {
   constructor(props) {

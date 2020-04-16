@@ -38,9 +38,9 @@ global.Request = function (url, tokens) {
         } else if (payload) {
           client.setRequestHeader(
             "Content-Type",
-            "application/json;charset=UTF-8"
+            "application/x-www-form-urlencoded"
           );
-          client.send({ jsonString: JSON.stringify(payload) });
+          client.send(`jsonString=${JSON.stringify(payload)}`);
         } else {
           client.setRequestHeader(
             "Content-Type",

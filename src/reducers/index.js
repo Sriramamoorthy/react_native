@@ -40,6 +40,13 @@ export const contacts = (state = {}, action) => {
       let nState = Object.assign({}, state);
       nState = Object.assign({}, nState, { [action.data.id]: action.data.obj });
       return nState;
+    case "CREATE_CONTACT_SUCCESS":
+    case "UPDATE_CONTACT_SUCCESS":
+      let mState = Object.assign({}, state);
+      mState = Object.assign({}, mState, {
+        [action.data.ids[0]]: action.data.obj,
+      });
+      return mState;
     default:
       return state;
   }

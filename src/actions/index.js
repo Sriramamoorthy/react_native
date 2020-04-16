@@ -68,6 +68,44 @@ export const getContact = (id) => ({
   },
 });
 
+export const createContact = (payload) => ({
+  types: [
+    "CREATE_CONTACT_REQUEST",
+    "CREATE_CONTACT_SUCCESS",
+    "CREATE_CONTACT_FAILURE",
+  ],
+  callAPI: (state) => {
+    let tokens = getTokens(state);
+    return Request("https://api.goschedule.io/customer/create", tokens)
+      .post("", payload)
+      .then((res) => {
+        let obj = res["data"];
+        let schedule = res["data"].schedule || [];
+        let contact = Object.assign(obj, { schedule: schedule });
+        return { obj: contact, ids: [contact.client_id], entity: "contacts" };
+      });
+  },
+});
+
+export const updateContact = (id, payload) => ({
+  types: [
+    "UPDATE_CONTACT_REQUEST",
+    "UPDATE_CONTACT_SUCCESS",
+    "UPDATE_CONTACT_FAILURE",
+  ],
+  callAPI: (state) => {
+    let tokens = getTokens(state);
+    return Request("https://api.goschedule.io/customer/update/" + id, tokens)
+      .post("", payload)
+      .then((res) => {
+        let obj = res["data"];
+        let schedule = res["data"].schedule || [];
+        let contact = Object.assign(obj, { schedule: schedule });
+        return { obj: contact, ids: [contact.client_id] };
+      });
+  },
+});
+
 export const updateContactUIState = (data) => {
   return {
     type: "UPDATE_CONTACTUI",

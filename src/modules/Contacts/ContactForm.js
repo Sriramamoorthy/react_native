@@ -33,6 +33,8 @@ class ContactForm extends React.Component {
         client_state: "",
         client_country: "",
         client_pincode: "",
+        client_gender: "M",
+        client_displayname: "",
       },
       containerHeight: getInnerContainerHeight(),
     };
@@ -47,7 +49,10 @@ class ContactForm extends React.Component {
         client_firstname: contact.client_firstname || "",
         client_lastname: contact.client_lastname || "",
         client_email: contact.client_email || "",
-        client_phone_code: contact.client_phone_code.toLowerCase(),
+        client_phone_code:
+          (contact.client_phone_code &&
+            contact.client_phone_code.toLowerCase()) ||
+          "",
         client_mobile: contact.client_mobile || "",
         client_dial_number: contact.client_dial_number || "",
         client_address_line: contact.client_address_line || "",
@@ -55,6 +60,11 @@ class ContactForm extends React.Component {
         client_state: contact.client_state || "",
         client_country: contact.client_country || "",
         client_pincode: contact.client_pincode || "",
+        client_gender: "M",
+        client_displayname:
+          (contact.client_firstname || "") +
+          " " +
+          (contact.client_lastname || ""),
       };
       this.setState({
         payload: payload,
@@ -114,8 +124,8 @@ class ContactForm extends React.Component {
       Alert.alert("Enter email or phone");
       return false;
     } else if (
-      payload.client_email != "" &&
-      !emailRegex.test(payload.client_email)
+      (payload.client_email != "" && !emailRegex.test(payload.client_email)) ||
+      payload.client_email == ""
     ) {
       Alert.alert("Enter a valid Email");
       return false;
@@ -125,7 +135,14 @@ class ContactForm extends React.Component {
 
   onSave() {
     let { onSaveForm } = this.props;
-    let payload = Object.assign({}, this.state.payload);
+    let { mode, contactId } = this.props;
+    let payloadObj = this.state.payload;
+    let payload = Object.assign({}, payloadObj, {
+      client_displayname:
+        (payloadObj.client_firstname || "") +
+        " " +
+        (payloadObj.client_lastname || ""),
+    });
     let phonedata = this.getData();
     let isValidData = this.validateData(payload, phonedata);
     if (isValidData) {
@@ -135,7 +152,7 @@ class ContactForm extends React.Component {
         Alert.alert(`Enter a valid phone number`);
         return;
       }
-      onSaveForm && onSaveForm(payload);
+      onSaveForm && onSaveForm(mode, payload, contactId);
     }
   }
 
