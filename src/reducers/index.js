@@ -30,6 +30,15 @@ export const contactsUIState = (
   }
 };
 
+export const userUIState = (state = { hasMoreData: true }, action) => {
+  switch (action.type) {
+    case "UPDATE_USERUISTATE":
+      return action.data;
+    default:
+      return state;
+  }
+};
+
 export const contacts = (state = {}, action) => {
   switch (action.type) {
     case "GET_CONTACTS_SUCCESS":
@@ -42,6 +51,28 @@ export const contacts = (state = {}, action) => {
       return nState;
     case "CREATE_CONTACT_SUCCESS":
     case "UPDATE_CONTACT_SUCCESS":
+      let mState = Object.assign({}, state);
+      mState = Object.assign({}, mState, {
+        [action.data.ids[0]]: action.data.obj,
+      });
+      return mState;
+    default:
+      return state;
+  }
+};
+
+export const users = (state = {}, action) => {
+  switch (action.type) {
+    case "GET_USERS_SUCCESS":
+      let newState = Object.assign({}, state);
+      newState = Object.assign(newState, action.data.obj);
+      return newState;
+    case "GET_USER_SUCCESS":
+      let nState = Object.assign({}, state);
+      nState = Object.assign({}, nState, { [action.data.id]: action.data.obj });
+      return nState;
+    case "CREATE_USER_SUCCESS":
+    case "UPDATE_USER_SUCCESS":
       let mState = Object.assign({}, state);
       mState = Object.assign({}, mState, {
         [action.data.ids[0]]: action.data.obj,

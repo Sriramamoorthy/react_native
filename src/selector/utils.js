@@ -43,3 +43,11 @@ export const getContactArray = (contacts, ids) => {
   });
   return contactList;
 };
+
+export const getUserArray = (users, ids) => {
+  let userList = [];
+  ids.map((id) => {
+    userList.push(users[id]);
+  });
+  return userList;
+};

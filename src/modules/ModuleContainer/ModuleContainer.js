@@ -15,6 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import Users from "../Users/Users";
 
 export default class ModuleContainer extends React.Component {
   constructor(props) {
@@ -46,8 +47,11 @@ export default class ModuleContainer extends React.Component {
       case 2:
         selectedComponent = <Settings />;
         break;
+      case 3:
+        selectedComponent = <Users />;
+        break;
       default:
-        selectedComponent = <ContactList />;
+        selectedComponent = <Contacts />;
         break;
     }
     return (
@@ -73,6 +77,9 @@ export default class ModuleContainer extends React.Component {
             />
             <BottomNavigationTab
               icon={(props) => <Icon {...props} name="inbox" />}
+            />
+            <BottomNavigationTab
+              icon={(props) => <Icon {...props} name="person" />}
             />
             <BottomNavigationTab
               icon={(props) => <Icon {...props} name="settings-2-outline" />}
