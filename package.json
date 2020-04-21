@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "@eva-design/eva": "^1.4.0",
+    "@react-native-firebase/app": "^6.4.0",
     "@ui-kitten/components": "^4.4.1",
     "@ui-kitten/eva-icons": "^4.4.1",
     "expo": "~37.0.3",
+    "expo-firebase-analytics": "~2.1.2",
+    "expo-firebase-core": "~1.0.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.0.tar.gz",
@@ -22,7 +25,8 @@
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "sentry-expo": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

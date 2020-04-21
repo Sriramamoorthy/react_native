@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "581346447785",
+    "firebase_url": "https://goschedule-23611.firebaseio.com",
+    "project_id": "goschedule-23611",
+    "storage_bucket": "goschedule-23611.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581346447785:android:944ade48ba3f562540b4b8",
+        "android_client_info": {
+          "package_name": "com.ivisionblog.apps.myappointments"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581346447785-l8ten0vo6mh557gmpv63ofjpluvj4aa9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWlvb-JZr7Z9rAGF9i9q5-jGqfJdcbY00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581346447785-l8ten0vo6mh557gmpv63ofjpluvj4aa9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

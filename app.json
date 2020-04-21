@@ -16,9 +16,27 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "com.shakthillc.demoapp",
+      "bundleIdentifier": "com.shakthillc.appointmentscheduling",
       "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.ivisionblog.apps.myappointments",
+      "versionCode": 2,
+      "googleServicesFile": "./google-services.json"
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "goschedule",
+            "project": "goschedule-mobile",
+            "authToken": "your auth token here",
+            "url": "your sentry url here" // OPTIONAL- only necessary when self-hosting Sentry
+          }
+        }
+      ]
     }
   }
 }
