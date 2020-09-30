@@ -123,6 +123,7 @@ export const getServices = () => ({
     )
       .get()
       .then((res) => {
+      console.log(res)
         let services = res["data"];
         return services || [];
       });
