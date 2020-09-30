@@ -4,6 +4,7 @@ export default function promiseMiddleware({ dispatch, getState }) {
       const { types, callAPI, shouldCallAPI = () => true, payload } = action;
       if (!types) {
         // Normal action: pass it o
+        console.log(action);
         return next(action);
       }
       if (
