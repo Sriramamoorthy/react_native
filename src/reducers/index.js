@@ -3,6 +3,7 @@ export const orgData = (state = "", action) => {
     case "META_SUCCESS":
       let newState = Object.assign({}, state);
       newState = Object.assign({}, newState, action.data);
+      console.log(newState);
       return newState;
     default:
       return state;
