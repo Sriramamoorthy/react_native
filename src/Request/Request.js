@@ -61,6 +61,7 @@ global.Request = function (url, tokens) {
             } else {
               try {
                 if (JSON.parse(response)) {
+                  console.log(response);
                   resolve(JSON.parse(response));
                 }
               } catch (e) {
