@@ -10,6 +10,7 @@ export const getUsers = () => ({
       .get()
       .then((res) => {
         let { obj, ids } = convertToObject(res["data"] || [], "user_id");
+        console.log(obj);
         return { obj, ids, entity: "users" };
       });
   },
